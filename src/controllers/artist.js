@@ -10,3 +10,9 @@ exports.addArtist = (req, res) => {
     res.status(201).json(artist);
   });
 };
+
+exports.listAll = (req, res) => {
+  Artist.find({}, (error, artists) => {
+    res.status(200).json(artists);
+  });
+};
