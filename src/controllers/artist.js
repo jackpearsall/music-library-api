@@ -39,3 +39,13 @@ exports.updateById = (req, res) => {
     }
   });
 };
+
+exports.deleteById = (req, res) => {
+  Artist.findByIdAndDelete(req.params.id, (err, artist) => {
+    if (!artist) {
+      res.status(404).json({ error: 'The artist could not be found.' });
+    } else {
+      res.status(204).json(artist);
+    }
+  });
+};
