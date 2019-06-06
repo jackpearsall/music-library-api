@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const Artist = require('../src/models/artist');
 
 describe('/artists', () => {
-
   let artists;
   beforeEach((done) => {
     Promise.all([
