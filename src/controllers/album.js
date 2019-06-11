@@ -18,3 +18,9 @@ exports.addAlbum = (req, res) => {
     }
   });
 };
+
+exports.showAlbums = (req, res) => {
+  Album.find({ artist: req.params.artistId }, (error, albums) => {
+    res.status(200).json(albums);
+  });
+};

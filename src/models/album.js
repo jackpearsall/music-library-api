@@ -1,11 +1,14 @@
 const mongoose = require('mongoose');
 
 const albumSchema = new mongoose.Schema({
-  name: String,
+  name: {
+    type: String,
+  },
   year: Number,
   artist: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Artist',
+    required: true,
   },
 });
 
