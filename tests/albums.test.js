@@ -22,7 +22,7 @@ describe('/albums', () => {
   });
 
   describe('POST /artists/:artistId/albums', () => {
-    xit('creates a new album for a given artist', (done) => {
+    it('creates a new album for a given artist', (done) => {
       chai.request(server)
         .post(`/artists/${artist._id}/albums`)
         .send({
@@ -43,7 +43,7 @@ describe('/albums', () => {
         });
     });
 
-    xit('returns a 404 and does not create an album if the artist does not exist', (done) => {
+    it('returns a 404 and does not create an album if the artist does not exist', (done) => {
       chai.request(server)
         .post('/artists/1234/albums')
         .send({
@@ -58,6 +58,30 @@ describe('/albums', () => {
           Album.find({}, (err, albums) => {
             expect(err).to.equal(null);
             expect(albums).to.have.lengthOf(0);
+            done();
+          });
+        });
+    });
+  });
+
+  describe('GET /artists/:artistId/albums', () => {
+    beforeEach((done) => {
+      Promise.all([
+        Album.create({ name: 'InnerSpeaker', genre: 'Rock', artist: artist.id }),
+        Album.create({ name: 'InnerSpeaker2', genre: 'Rock', artist: artist.id }),
+        Album.create({ name: 'InnerSpeaker3', genre: 'Rock', artist: artist.id }),
+      ]);
+      done();
+    });
+    it('gets all albums for a specified artist', (done) => {
+      chai.request(server)
+        .get(`/artists/${artist._id}/albums`)
+        .end((err, res) => {
+          expect(err).to.equal(null);
+          expect(res.status).to.equal(200);
+          Album.find({ artist: artist.id }, (err2, albums) => {
+            expect(err2).to.equal(null);
+            expect(albums).to.have.lengthOf(3);
             done();
           });
         });
